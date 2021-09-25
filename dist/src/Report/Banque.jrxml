@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Banque" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9fb8edb4-417a-42c8-9618-ee685051ff15">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="notrans" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     TRANSACTION."NOTRANS" AS TRANSACTION_NOTRANS,
+     to_char(TRANSACTION."DATETARN",'dd/mm/yyyy') AS TRANSACTION_DATETARN,
+     TRANSACTION."TYPE" AS TRANSACTION_TYPE,
+     TRANSACTION."MONTANT" AS TRANSACTION_MONTANT,
+     TRANSACTION."IDCLT" AS TRANSACTION_IDCLT,
+     CLIENT."IDCLT" AS CLIENT_IDCLT,
+     CLIENT."NOM" AS CLIENT_NOM,
+     CLIENT."MAIL" AS CLIENT_MAIL,
+     CLIENT."TEL" AS CLIENT_TEL,
+     CLIENT."ICE" AS CLIENT_ICE
+FROM
+     "BANG"."CLIENT" CLIENT INNER JOIN "BANG"."TRANSACTION" TRANSACTION ON CLIENT."IDCLT" = TRANSACTION."IDCLT"
+where TRANSACTION."NOTRANS"=$P{notrans}]]>
+	</queryString>
+	<field name="TRANSACTION_NOTRANS" class="java.math.BigDecimal"/>
+	<field name="TRANSACTION_DATETARN" class="java.lang.String"/>
+	<field name="TRANSACTION_TYPE" class="java.lang.String"/>
+	<field name="TRANSACTION_MONTANT" class="java.math.BigDecimal"/>
+	<field name="TRANSACTION_IDCLT" class="java.math.BigDecimal"/>
+	<field name="CLIENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="CLIENT_NOM" class="java.lang.String"/>
+	<field name="CLIENT_MAIL" class="java.lang.String"/>
+	<field name="CLIENT_TEL" class="java.lang.String"/>
+	<field name="CLIENT_ICE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="183" splitType="Stretch">
+			<image>
+				<reportElement x="389" y="0" width="264" height="132" uuid="21405b3f-8ebd-473e-a625-0a2221f6f01e"/>
+				<imageExpression><![CDATA["C:\\Users\\ASUS\\Documents\\NetBeansProjects\\AppGestion\\src\\Icon\\untitled-2_69.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="174" y="132" width="235" height="38" uuid="5be5083a-dc74-4baa-bfc7-efe596099463"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_TYPE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="287" splitType="Stretch">
+			<staticText>
+				<reportElement x="17" y="77" width="100" height="20" uuid="a877a5e8-d992-456d-aef4-9026f867a204"/>
+				<text><![CDATA[Nom Client :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="116" width="100" height="20" uuid="3542f651-79c0-4557-9285-cd893cd9b024"/>
+				<text><![CDATA[Telephone :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="153" width="100" height="20" uuid="c80987c7-0129-40cf-b0f0-e59a1c5d3a9a"/>
+				<text><![CDATA[Mail :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="77" width="179" height="20" uuid="ca44757e-9ee2-4464-b811-70771a77c717"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="116" width="179" height="20" uuid="4e2b1a79-c68e-414b-be2a-41a470acd4f6"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_TEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="153" width="179" height="20" uuid="7ab52e60-37dd-45b7-a52c-1c1e11a55b20"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_MAIL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="27" width="100" height="20" uuid="19c5b344-d8f5-4037-b544-7c98a654e1df"/>
+				<text><![CDATA[Date de Transaction ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="193" width="179" height="20" uuid="b28a3409-e8ac-40e0-9b07-7ac6d7c14d2f"/>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_MONTANT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="193" width="100" height="20" uuid="4fa8825e-6c26-4c01-859b-bf60a87799fa"/>
+				<text><![CDATA[Montant  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="27" width="179" height="20" uuid="98762528-7971-4ccd-bebd-288730675bad"/>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_DATETARN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

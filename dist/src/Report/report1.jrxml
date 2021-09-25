@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9ca7e6a8-e942-4480-8fe0-14c01f21449b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="noclt" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     CLIENT."IDCLT" AS CLIENT_IDCLT,
+     CLIENT."NOM" AS CLIENT_NOM,
+     CLIENT."MAIL" AS CLIENT_MAIL,
+     CLIENT."TEL" AS CLIENT_TEL,
+     CLIENT."ICE" AS CLIENT_ICE,
+     PAIMENT."IDP" AS PAIMENT_IDP,
+     PAIMENT."IDCLT" AS PAIMENT_IDCLT,
+     PAIMENT."DEPO" AS PAIMENT_DEPO,
+     PAIMENT."TOTAL" AS PAIMENT_TOTAL,
+    PAIMENT."TOTAL"-PAIMENT."DEPO" As credit
+FROM
+     "BANG"."CLIENT" CLIENT INNER JOIN "BANG"."PAIMENT" PAIMENT ON CLIENT."IDCLT" = PAIMENT."IDCLT"
+WHERE
+     CLIENT."IDCLT" = $P{noclt}]]>
+	</queryString>
+	<field name="CLIENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="CLIENT_NOM" class="java.lang.String"/>
+	<field name="CLIENT_MAIL" class="java.lang.String"/>
+	<field name="CLIENT_TEL" class="java.lang.String"/>
+	<field name="CLIENT_ICE" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_IDP" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_DEPO" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_TOTAL" class="java.math.BigDecimal"/>
+	<field name="CREDIT" class="java.math.BigDecimal"/>
+	<variable name="credit" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{PAIMENT_TOTAL}-$F{PAIMENT_DEPO}]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{PAIMENT_TOTAL}-$F{PAIMENT_DEPO}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="105" splitType="Stretch">
+			<image>
+				<reportElement x="360" y="0" width="195" height="105" uuid="0de0d5ae-96b6-4b1d-97aa-8dce7bf92b95"/>
+				<imageExpression><![CDATA["C:\\Users\\ASUS\\Documents\\NetBeansProjects\\AppGestion\\src\\Icon\\untitled-2_69.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="312" splitType="Stretch">
+			<staticText>
+				<reportElement x="15" y="17" width="100" height="20" uuid="d25dad54-2da5-4412-9fce-e44e5d099f1d"/>
+				<text><![CDATA[NOM CLIENT :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="54" width="100" height="20" uuid="161cf680-269f-497f-a898-33f03c611b59"/>
+				<text><![CDATA[MAIL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="98" width="100" height="20" uuid="5d42323e-e272-4b26-871a-e44553e1a611"/>
+				<text><![CDATA[TEL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="234" width="100" height="20" uuid="491ae9e2-4fc7-42bf-9a40-1879c749636b"/>
+				<text><![CDATA[CREDIT :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="140" width="100" height="20" uuid="b019b397-1588-4294-98be-39b1b3f18e71"/>
+				<text><![CDATA[TOTAL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="186" width="100" height="20" uuid="54062bda-7d81-4484-907a-cfe5a46ce823"/>
+				<text><![CDATA[DEPO :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="131" y="17" width="163" height="20" uuid="4565e1a5-c122-4fb9-858c-c8c85461a158"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="98" width="163" height="20" uuid="1c5443fe-c5b3-4c4a-bcba-aab88462c30f"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_TEL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="54" width="163" height="20" uuid="bb990d14-763b-4495-8263-dd8278a72c49"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_MAIL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="140" width="163" height="20" uuid="dddfe67c-98e4-40a4-bd40-ac6a8a415a01"/>
+				<textFieldExpression><![CDATA[$F{PAIMENT_TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="186" width="163" height="20" uuid="153a7eed-dc56-4506-9382-8b018990d45c"/>
+				<textFieldExpression><![CDATA[$F{PAIMENT_DEPO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="234" width="163" height="20" uuid="79758e19-ead0-4ce9-837c-a1e3600ba0a8"/>
+				<textFieldExpression><![CDATA[$F{CREDIT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

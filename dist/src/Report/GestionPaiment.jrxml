@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GestionPaiment" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37815833-5bfa-46a0-a747-171f0d055362">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="30"/>
+	<parameter name="idclt" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     CLIENT."IDCLT" AS CLIENT_IDCLT,
+     CLIENT."NOM" AS CLIENT_NOM,
+     CLIENT."MAIL" AS CLIENT_MAIL,
+     CLIENT."TEL" AS CLIENT_TEL,
+     CLIENT."ICE" AS CLIENT_ICE,
+     PAIMENT."IDP" AS PAIMENT_IDP,
+     PAIMENT."IDCLT" AS PAIMENT_IDCLT,
+     PAIMENT."TOTAL" AS PAIMENT_TOTAL,
+     PAIMENT."DEPO" AS PAIMENT_DEPO,
+     TRANSACTION."NOTRANS" AS TRANSACTION_NOTRANS,
+     to_char(TRANSACTION."DATETARN",'dd/mm/yyyy') AS TRANSACTION_DATETARN,
+     TRANSACTION."TYPE" AS TRANSACTION_TYPE,
+     TRANSACTION."MONTANT" AS TRANSACTION_MONTANT,
+     TRANSACTION."IDCLT" AS TRANSACTION_IDCLT
+FROM
+     "BANG"."CLIENT" CLIENT INNER JOIN "BANG"."PAIMENT" PAIMENT ON CLIENT."IDCLT" = PAIMENT."IDCLT"
+     INNER JOIN "BANG"."TRANSACTION" TRANSACTION ON CLIENT."IDCLT" = TRANSACTION."IDCLT"
+where CLIENT."IDCLT"=$P{idclt}]]>
+	</queryString>
+	<field name="CLIENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="CLIENT_NOM" class="java.lang.String"/>
+	<field name="CLIENT_MAIL" class="java.lang.String"/>
+	<field name="CLIENT_TEL" class="java.lang.String"/>
+	<field name="CLIENT_ICE" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_IDP" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_TOTAL" class="java.math.BigDecimal"/>
+	<field name="PAIMENT_DEPO" class="java.math.BigDecimal"/>
+	<field name="TRANSACTION_NOTRANS" class="java.math.BigDecimal"/>
+	<field name="TRANSACTION_DATETARN" class="java.lang.String"/>
+	<field name="TRANSACTION_TYPE" class="java.lang.String"/>
+	<field name="TRANSACTION_MONTANT" class="java.math.BigDecimal"/>
+	<field name="TRANSACTION_IDCLT" class="java.math.BigDecimal"/>
+	<variable name="creadit" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{PAIMENT_TOTAL}.floatValue()-$F{PAIMENT_DEPO}.floatValue()]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="133" splitType="Stretch">
+			<image>
+				<reportElement x="384" y="0" width="195" height="133" uuid="08703cf3-49b9-4f5f-94f7-cc5f7a43e975"/>
+				<imageExpression><![CDATA["C:\\Users\\ASUS\\Documents\\NetBeansProjects\\AppGestion\\src\\Icon\\untitled-2_69.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="140" splitType="Stretch">
+			<staticText>
+				<reportElement x="18" y="13" width="35" height="20" uuid="327ac5c6-5186-4a26-86ba-fb8b2fc20df8"/>
+				<text><![CDATA[Nom :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="49" width="35" height="20" uuid="cf65680a-c654-4df6-ac6e-9efaed680924"/>
+				<text><![CDATA[Tel :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="84" width="35" height="20" uuid="517338a3-3921-4675-a125-9e1b7f7aeb54"/>
+				<text><![CDATA[Mail :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="67" y="13" width="161" height="20" uuid="94e9e090-919a-43b7-9a4f-a8dff435ca12"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="67" y="84" width="161" height="20" uuid="dec5cd77-d4e9-4833-bee8-031fdd018b91"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_MAIL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="67" y="49" width="161" height="20" uuid="b768e08d-280c-4c13-9c43-1fb3c15ad4aa"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_TEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="203" height="25" uuid="70c40b1b-4187-4308-be1d-e46049b66525"/>
+				<box leftPadding="6">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Date ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="0" width="173" height="25" uuid="804929a3-5966-4f0b-8481-e3fb9f1ce390"/>
+				<box leftPadding="6">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Type ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="0" width="179" height="25" uuid="0b0367fb-b533-4eaa-9257-d97c2ce1b977"/>
+				<box leftPadding="6">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Montant ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="376" y="0" width="179" height="24" uuid="a332838e-5b9b-40b1-9289-7061bb766855"/>
+				<box leftPadding="6">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_MONTANT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="0" width="173" height="24" uuid="722b065f-6005-49ca-b846-e542eebd294d"/>
+				<box leftPadding="6">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_TYPE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="203" height="24" uuid="4d1898ed-d13f-4287-9b28-61e500e75cac"/>
+				<box leftPadding="6">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_DATETARN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="121" splitType="Stretch">
+			<staticText>
+				<reportElement x="228" y="17" width="115" height="20" uuid="5a544a38-55a1-484c-b9ad-b2a3479d3ab2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Total  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="37" width="115" height="20" uuid="bd42c710-49e2-4474-8933-4e5e288304df"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Depo :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="57" width="115" height="20" uuid="94054dfe-2f6b-459d-ad2b-1fce84370a32"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Credit :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="343" y="17" width="174" height="20" uuid="f1e78435-bc63-421c-83e2-6aaa3fccc5b5"/>
+				<box leftPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{PAIMENT_TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="37" width="174" height="20" uuid="525a0193-a557-4a06-9699-0b68973785ba"/>
+				<box leftPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{PAIMENT_DEPO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="57" width="174" height="20" uuid="694516da-026b-4557-9070-049de928feb8"/>
+				<box leftPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$V{creadit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ficher" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b2a6dbb-dcdf-4971-9fd2-403fc0bfad0c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="21"/>
+	<parameter name="nocmd" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     ARTICLE."IDART" AS ARTICLE_IDART,
+     ARTICLE."LIBELLE" AS ARTICLE_LIBELLE,
+     ARTICLE."QTESTOCK" AS ARTICLE_QTESTOCK,
+     CLIENT."IDCLT" AS CLIENT_IDCLT,
+     CLIENT."NOM" AS CLIENT_NOM,
+     CLIENT."MAIL" AS CLIENT_MAIL,
+     CLIENT."TEL" AS CLIENT_TEL,
+     CLIENT."ICE" AS CLIENT_ICE,
+     COMMANDE."NOCMD" AS COMMANDE_NOCMD,
+     COMMANDE."DATECMD" AS COMMANDE_DATECMD,
+     COMMANDE."IDCLT" AS COMMANDE_IDCLT,
+     LIGNECOMMANDE."NOLC" AS LIGNECOMMANDE_NOLC,
+     LIGNECOMMANDE."NOCMD" AS LIGNECOMMANDE_NOCMD,
+     LIGNECOMMANDE."IDART" AS LIGNECOMMANDE_IDART,
+     LIGNECOMMANDE."PRIX" AS LIGNECOMMANDE_PRIX,
+     LIGNECOMMANDE."QTE" AS LIGNECOMMANDE_QTE
+FROM
+     "BANG"."CLIENT" CLIENT INNER JOIN "BANG"."COMMANDE" COMMANDE ON CLIENT."IDCLT" = COMMANDE."IDCLT"
+     INNER JOIN "BANG"."LIGNECOMMANDE" LIGNECOMMANDE ON COMMANDE."NOCMD" = LIGNECOMMANDE."NOCMD"
+     INNER JOIN "BANG"."ARTICLE" ARTICLE ON LIGNECOMMANDE."IDART" = ARTICLE."IDART"
+where  COMMANDE."NOCMD"=$P{nocmd}]]>
+	</queryString>
+	<field name="ARTICLE_IDART" class="java.math.BigDecimal"/>
+	<field name="ARTICLE_LIBELLE" class="java.lang.String"/>
+	<field name="ARTICLE_QTESTOCK" class="java.math.BigDecimal"/>
+	<field name="CLIENT_IDCLT" class="java.math.BigDecimal"/>
+	<field name="CLIENT_NOM" class="java.lang.String"/>
+	<field name="CLIENT_MAIL" class="java.lang.String"/>
+	<field name="CLIENT_TEL" class="java.lang.String"/>
+	<field name="CLIENT_ICE" class="java.math.BigDecimal"/>
+	<field name="COMMANDE_NOCMD" class="java.math.BigDecimal"/>
+	<field name="COMMANDE_DATECMD" class="java.sql.Timestamp"/>
+	<field name="COMMANDE_IDCLT" class="java.math.BigDecimal"/>
+	<field name="LIGNECOMMANDE_NOLC" class="java.math.BigDecimal"/>
+	<field name="LIGNECOMMANDE_NOCMD" class="java.math.BigDecimal"/>
+	<field name="LIGNECOMMANDE_IDART" class="java.math.BigDecimal"/>
+	<field name="LIGNECOMMANDE_PRIX" class="java.math.BigDecimal"/>
+	<field name="LIGNECOMMANDE_QTE" class="java.math.BigDecimal"/>
+	<variable name="Soustotal" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{LIGNECOMMANDE_PRIX}$F{LIGNECOMMANDE_PRIX}.floatValue()*$F{LIGNECOMMANDE_QTE}]]></variableExpression>
+	</variable>
+	<variable name="tht" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$V{Soustotal}]]></variableExpression>
+	</variable>
+	<variable name="TVA" class="java.lang.Float">
+		<variableExpression><![CDATA[$V{tht}*0.20]]></variableExpression>
+	</variable>
+	<variable name="ttc" class="java.lang.Float">
+		<variableExpression><![CDATA[$V{tht}*1.2]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="391" y="0" width="315" height="79" uuid="c205edfc-f273-4692-9a51-29d03d8ff7e6"/>
+				<imageExpression><![CDATA["C:\\Users\\ASUS\\Pictures\\téléchargement.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement x="28" y="18" width="100" height="20" uuid="7263ee9a-1299-496d-8919-8012f3b96434"/>
+				<text><![CDATA[CLIENT :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="55" width="100" height="20" uuid="6822b508-f37f-468b-b55d-1a4cbd2ef996"/>
+				<text><![CDATA[DATE COMMANDE :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="128" y="18" width="100" height="20" uuid="b9d0a48a-6aa3-4367-bc56-652460814c8b"/>
+				<textFieldExpression><![CDATA[$F{CLIENT_NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="55" width="161" height="20" uuid="bded0e8f-832f-45ab-99a0-09471abb1303"/>
+				<textFieldExpression><![CDATA[$F{COMMANDE_DATECMD}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="199" height="20" uuid="1542e299-dcbf-475d-b5bf-530b28dd4c17"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[ARTICLE ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="199" y="0" width="100" height="20" uuid="457b1948-de70-4084-a957-148fe1caba0f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[PRIX ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="0" width="100" height="20" uuid="0c7acc3e-2cce-4480-ba27-623d690889ed"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[QTE ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="0" width="100" height="20" uuid="d1501fe4-1b47-478c-907d-b17f186a2383"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[SOUS TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="199" height="20" uuid="3cb9ae59-940a-4403-bc2c-46c1b010aa04"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{ARTICLE_LIBELLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="0" width="100" height="20" uuid="ec9dc531-b52a-404a-b72c-41ff0fe73b09"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{LIGNECOMMANDE_PRIX}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="299" y="0" width="100" height="20" uuid="4caed849-5389-4534-9106-faaeb34640ce"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{LIGNECOMMANDE_QTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="0" width="100" height="20" uuid="7cd6cc1c-4449-4c8d-a6c7-f36b5fe50bb5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$V{Soustotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="159" splitType="Stretch">
+			<staticText>
+				<reportElement x="299" y="17" width="100" height="20" uuid="709c1fa0-bf78-4177-a768-34653af77d03"/>
+				<text><![CDATA[T.H.T]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="37" width="100" height="20" uuid="93f6a6b5-1f7e-49f0-a84f-0d7a6c132c4f"/>
+				<text><![CDATA[T.V.A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="57" width="100" height="20" uuid="92818852-dd8d-4627-b5db-3645eb7b443a"/>
+				<text><![CDATA[T.T.C]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="399" y="17" width="100" height="20" uuid="c03d2291-ccdd-4b62-93d1-c1419256eb17"/>
+				<textFieldExpression><![CDATA[$V{tht}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="37" width="100" height="20" uuid="0664a328-f29a-4dc4-a209-927ca9bddebb"/>
+				<textFieldExpression><![CDATA[$V{TVA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="57" width="100" height="20" uuid="8250295f-1d52-4e07-bad4-706682b46754"/>
+				<textFieldExpression><![CDATA[$V{ttc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

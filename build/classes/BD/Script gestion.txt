@@ -1,0 +1,76 @@
+conn system/123;
+create user appstage identified by appstage ;
+grant connect , resource to appstage;
+conn appstage/appstage;
+
+create table client(
+idclt number(15) constraint pk_idclt primary key,
+nom varchar2(30),
+mail varchar2(30),
+tel varchar2(30),
+ice number(15));
+
+create table Article(
+idart number(15) constraint pk_idart primary key,
+libelle varchar2(30),
+QteStock number(30));
+
+create table commande(
+nocmd number(15) constraint pk_nocmd primary key,
+datecmd date,
+idclt number(5) constraint fk_idclt_cmd REFERENCEs client(idclt));
+
+create table lignecommande(
+nolc  number(150) constraint pk_nolc primary key,
+nocmd number(5) constraint fk_idcmd_lc REFERENCEs commande(nocmd),
+idart number(5) constraint fk_idart_lc REFERENCEs article(idart),
+Prix number(13,2),
+qte number(10));
+
+create table paiment(
+idp number(15) constraint pk_idp primary key,
+idclt number(5) constraint fk_idclt_p REFERENCEs client(idclt),
+total number(20,2),
+depo number(20,2));
+
+create table transaction(
+notrans number(15) constraint pk_notans primary key,
+datetarn date,
+type varchar2(30),
+montant number(20,2),
+idclt number(5) constraint fk_idclt_tans REFERENCEs client(idclt));
+
+------------sequences
+create sequence seq_idclt;
+create sequence seq_idart;
+create sequence seq_nocmd;
+create sequence seq_nolc;
+create sequence seq_idp;
+create sequence seq_notrans;
+-------------trigger
+create or replace trigger update_qtestock
+    after 
+    insert
+    on lignecommande
+    for each row
+ begin
+ update article set qtestock =qtestock-:new.qte where idart=:new.idart;
+ end;
+/
+--------------procedure 
+create or replace  procedure mise(montant number,idclient number)
+is
+begin
+update paiment set depo=depo+montant where idclt=idclient;
+end;
+/
+----------------Function
+create or replace function get_qte(id_art number)
+return number
+is 
+qte number:=0;
+begin 
+select qtestock into qte from article where idart=id_art;
+return qte;
+end;
+/
